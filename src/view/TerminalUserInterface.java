@@ -20,6 +20,12 @@ public class TerminalUserInterface {
 	private final String LINE_SEPARATOR = System.lineSeparator();
 	private Font font = new Font("SansSerif", Font.BOLD, 16);
 
+	/**
+	 * Constructor of terminal GUI
+	 * Adds simple text area and
+	 * set basic attributes like
+	 * font and font size.
+	 */
 	private TerminalUserInterface() {
 		frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frm.getContentPane().add(scrollPane);
@@ -29,6 +35,10 @@ public class TerminalUserInterface {
 		disableArrowKeys(txtArea.getInputMap());
 	}
 
+	/**
+	 * Disables arrow keys inside the terminal
+	 * @param inputMap The KeyListener of the Window
+	 */
 	private void disableArrowKeys(InputMap inputMap) {
 		String[] keystrokeNames = { "UP", "DOWN", "LEFT", "RIGHT", "HOME" };
 		for (int i = 0; i < keystrokeNames.length; ++i)
@@ -62,6 +72,9 @@ public class TerminalUserInterface {
 		txtArea.setText(txtArea.getText() + LINE_SEPARATOR);
 	}
 
+	/**
+	 * Implementation of basic functions of a text editor
+	 */
 	private class KeyListener extends KeyAdapter {
 		private final int ENTER_KEY = KeyEvent.VK_ENTER;
 		private final int BACK_SPACE_KEY = KeyEvent.VK_BACK_SPACE;
@@ -129,6 +142,10 @@ public class TerminalUserInterface {
 		processor.processCmd(command);
 	}
 
+	/**
+	 * Extracts the command from command line input
+	 * @return String a new command string after input
+	 */
 	private String extractCommand() {
 		removeLastLineSeparator();
 		String newCommand = stripPreviousCommands();

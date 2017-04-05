@@ -10,29 +10,29 @@ public class ReadFile {
 	public List<String> commands;
 
 	public ReadFile(String string) {
-        try {
+		try {
 
-        	System.out.print("Enter the file name: ");
+			System.out.print("Enter the file name: ");
 
-            Scanner input = new Scanner("C:/Users/estagiario.satelite/workspace/porrinha/commands");
-            this.commands = new ArrayList<String>();
+			Scanner input = new Scanner("C:/Users/estagiario.satelite/workspace/porrinha/commands");
+			this.commands = new ArrayList<String>();
 
-            File file = new File(input.nextLine());
+			File file = new File(input.nextLine());
 
-            input = new Scanner(file);
+			input = new Scanner(file);
 
-            while (input.hasNextLine()) {
-                String line = input.nextLine();
-                commands.add(line);
-                System.out.println("Command: " + line);
-            }
+			while (input.hasNextLine()) {
+				String line = input.nextLine();
+				commands.add(line);
+				System.out.println("Command: " + line);
+			}
 
-            input.close();
+			input.close();
 
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 
-    }
+	}
 
 }
