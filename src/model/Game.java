@@ -14,28 +14,29 @@ public class Game {
 		prompt.printWelcomeMessage();
 		prompt.askForNumberOfPlayers();
 
-		int numberOfPlayers = Integer.valueOf(((ListResult) prompt.results()
-				.get("numberOfPlayers")).getSelectedId());
+		int numberOfPlayers = Integer.valueOf(((ListResult) prompt.results().get("numberOfPlayers")).getSelectedId());
 		prompt.printTheGameWillStart();
 
 		List<Player> players = createPlayers(numberOfPlayers);
+		int availableChopsticks = players.size() * 3;
 		Player gameWinner = null;
 		Player roundWinner = null;
 		List<Hold> playersHolds;
 		List<Bet> roundBets;
+		List<Round> roundHistory = new ArrayList<>();
 		do {
 			playersHolds = doHoldStep(players);
-			roundBets = doBetStep(players);
+			roundBets = doBetStep(players, availableChopsticks, roundHistory);
 			prompt.printBets(roundBets);
 			roundWinner = findRoundWinner(playersHolds, roundBets);
 			prompt.printRoundWinner(roundWinner);
-
 			if (roundWinner != null) {
+				roundHistory.add(new Round(roundWinner, availableChopsticks, roundWinner.getLastBet()));
 				roundWinner.discardChopstick();
+				availableChopsticks -= 1;
 				roundWinner = null;
+				gameWinner = findGameWinner(players);
 			}
-
-			gameWinner = findGameWinner(players);
 		} while (gameWinner == null);
 		prompt.printGameWinner(gameWinner);
 	}
@@ -48,12 +49,12 @@ public class Game {
 		return playersHold;
 	}
 
-	private static List<Bet> doBetStep(List<Player> players) {
-		List<Bet> playersBets = new ArrayList<Bet>();
+	private static List<Bet> doBetStep(List<Player> players, int availableChopsticks, List<Round> roundHistory) {
+		List<Bet> playersBet = new ArrayList<Bet>();
 		for (Player player : players) {
-			playersBets.add(player.bet(players.size(), playersBets));
+			playersBet.add(player.bet(playersBet, availableChopsticks, roundHistory));
 		}
-		return playersBets;
+		return playersBet;
 	}
 
 	private static Player findRoundWinner(List<Hold> holds, List<Bet> bets) {

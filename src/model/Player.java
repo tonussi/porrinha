@@ -8,6 +8,7 @@ public class Player {
 	public final String id;
 	private int chopsticks;
 	private final String color;
+	private List<Bet> betHistory;
 
 	public Player(String id, String color) {
 		super();
@@ -16,11 +17,13 @@ public class Player {
 		this.chopsticks = 3;
 	}
 
-	public Bet bet(int numberOfPlayers, List<Bet> unavailableBets) {
+	public Bet bet(List<Bet> unavailableBets, int sumOfAvailableChopsticks, List<Round> roundHistory ) {
+		BetAdvisor.calculateBetterBet(this, unavailableBets, sumOfAvailableChopsticks, roundHistory);
 		Bet bet;
 		do {
-			bet = new Bet(this, new Random().nextInt(3 * numberOfPlayers));
+			bet = new Bet(this, sumOfAvailableChopsticks);
 		} while (unavailableBets.contains(bet));
+		betHistory.add(bet);
 		return bet;
 	}
 
@@ -42,6 +45,10 @@ public class Player {
 
 	public int getChopsticks() {
 		return chopsticks;
+	}
+	
+	public Bet getLastBet() {
+		return betHistory.get(betHistory.size() -1);
 	}
 
 }
