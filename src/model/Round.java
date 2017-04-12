@@ -1,16 +1,18 @@
 package model;
 
+import java.util.List;
+
 public class Round {
 
 	private final Player winner;
 	private final int chopsticks;
-	private final Bet bet;
-	
-	public Round(Player winner, int chopsticks, Bet bet) {
+	private final List<Bet> bets;
+
+	public Round(Player winner, int chopsticks, List<Bet> roundBets) {
 		super();
 		this.winner = winner;
 		this.chopsticks = chopsticks;
-		this.bet = bet;
+		this.bets = roundBets;
 	}
 
 	public Player getWinner() {
@@ -21,9 +23,8 @@ public class Round {
 		return chopsticks;
 	}
 
-	public Bet getBet() {
-		return bet;
+	public List<Bet> getBets() {
+		return bets;
 	}
-	
-	
+
 }

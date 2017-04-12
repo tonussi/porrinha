@@ -31,7 +31,7 @@ public class Game {
 			roundWinner = findRoundWinner(playersHolds, roundBets);
 			prompt.printRoundWinner(roundWinner);
 			if (roundWinner != null) {
-				roundHistory.add(new Round(roundWinner, availableChopsticks, roundWinner.getLastBet()));
+				roundHistory.add(new Round(roundWinner, availableChopsticks, roundBets));
 				roundWinner.discardChopstick();
 				availableChopsticks -= 1;
 				roundWinner = null;
