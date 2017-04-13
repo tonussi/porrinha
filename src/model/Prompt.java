@@ -9,6 +9,7 @@ import model.Player;
 
 import org.fusesource.jansi.AnsiConsole;
 
+import de.codeshelf.consoleui.elements.PromptableElementIF;
 import de.codeshelf.consoleui.prompt.ConsolePrompt;
 import de.codeshelf.consoleui.prompt.PromtResultItemIF;
 import de.codeshelf.consoleui.prompt.builder.PromptBuilder;
