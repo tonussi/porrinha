@@ -19,8 +19,8 @@ public class Player {
 		this.betHistory = new ArrayList<Bet>();
 	}
 
-	public Bet bet(List<Bet> unavailableBets, int sumOfAvailableChopsticks, List<Round> roundHistory) {
-		BetAdvisor.calculateBetterBet(this, unavailableBets, sumOfAvailableChopsticks, roundHistory);
+	public Bet bet(List<Bet> unavailableBets, int sumOfAvailableChopsticks, List<Round> roundHistory, int numberOfPlayers) {
+		BetAdvisor.calculateBetterBet(this, unavailableBets, sumOfAvailableChopsticks, roundHistory, numberOfPlayers);
 		Bet bet;
 		do {
 			bet = new Bet(this, sumOfAvailableChopsticks);

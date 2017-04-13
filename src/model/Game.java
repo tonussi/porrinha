@@ -26,7 +26,7 @@ public class Game {
 		List<Round> roundHistory = new ArrayList<>();
 		do {
 			playersHolds = doHoldStep(players);
-			roundBets = doBetStep(players, availableChopsticks, roundHistory);
+			roundBets = doBetStep(players, availableChopsticks, roundHistory, numberOfPlayers);
 			prompt.printBets(roundBets);
 			roundWinner = findRoundWinner(playersHolds, roundBets);
 			prompt.printRoundWinner(roundWinner);
@@ -49,10 +49,11 @@ public class Game {
 		return playersHold;
 	}
 
-	private static List<Bet> doBetStep(List<Player> players, int availableChopsticks, List<Round> roundHistory) {
+	private static List<Bet> doBetStep(List<Player> players, int availableChopsticks, List<Round> roundHistory,
+			int numberOfPlayers) {
 		List<Bet> playersBet = new ArrayList<Bet>();
 		for (Player player : players) {
-			playersBet.add(player.bet(playersBet, availableChopsticks, roundHistory));
+			playersBet.add(player.bet(playersBet, availableChopsticks, roundHistory, numberOfPlayers));
 		}
 		return playersBet;
 	}
