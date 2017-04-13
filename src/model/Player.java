@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -15,9 +16,10 @@ public class Player {
 		this.id = id;
 		this.color = color;
 		this.chopsticks = 3;
+		this.betHistory = new ArrayList<Bet>();
 	}
 
-	public Bet bet(List<Bet> unavailableBets, int sumOfAvailableChopsticks, List<Round> roundHistory ) {
+	public Bet bet(List<Bet> unavailableBets, int sumOfAvailableChopsticks, List<Round> roundHistory) {
 		BetAdvisor.calculateBetterBet(this, unavailableBets, sumOfAvailableChopsticks, roundHistory);
 		Bet bet;
 		do {
@@ -46,9 +48,9 @@ public class Player {
 	public int getChopsticks() {
 		return chopsticks;
 	}
-	
+
 	public Bet getLastBet() {
-		return betHistory.get(betHistory.size() -1);
+		return betHistory.get(betHistory.size() - 1);
 	}
 
 }
