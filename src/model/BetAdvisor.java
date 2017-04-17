@@ -1,9 +1,11 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
 
 public class BetAdvisor {
@@ -31,9 +33,17 @@ public class BetAdvisor {
 		return 0;
 	}
 
-	private static Map<Integer, Integer> findFrequencies(List<Round> roundHistory, int numberOfPlayers) {
+	private static Map<Integer, Integer> findMajorProbabilityRamifications(List<Round> roundHistory,
+			int numberOfPlayers) {
+
 		int listOfAllBets[] = new int[roundHistory.size() * numberOfPlayers];
-		int minimumValue = Integer.MAX_VALUE, maximumValue = 0, squareRoot = 0;
+		int minimumValue = Integer.MAX_VALUE;
+		int maximumValue = 0;
+		int maxFrequencyValue1 = 0;
+		int maxFrequencyValue2 = 0;
+		int frequencyClassValue1 = 0;
+		int frequencyClassValue2 = 0;
+		int squareRoot = 0;
 
 		squareRoot = (int) Math.sqrt(roundHistory.size());
 
@@ -57,7 +67,21 @@ public class BetAdvisor {
 			listOfClasses[i] = accumulativeClasseValue;
 		}
 
-		return groupAndMapFrequencies(listOfAllBets, listOfClasses);
+		Map<Integer, Integer> groupedFrequencies = groupAndMapFrequencies(listOfAllBets, listOfClasses);
+
+		for (Entry<Integer, Integer> e : groupedFrequencies.entrySet()) {
+			if (e.getValue() > maxFrequencyValue1) {
+				maxFrequencyValue1 = e.getValue();
+				frequencyClassValue1 = e.getKey();
+			}
+			if (e.getValue() > maxFrequencyValue2 && maxFrequencyValue2 != maxFrequencyValue1) {
+				maxFrequencyValue2 = e.getValue();
+				frequencyClassValue2 = e.getKey();
+			}
+		}
+
+		return groupedFrequencies;
+
 	}
 
 	private static Map<Integer, Integer> groupAndMapFrequencies(int[] listOfAllBets, int[] listOfClasses) {
@@ -69,7 +93,8 @@ public class BetAdvisor {
 			accumulativeClassValue = listOfClasses[i];
 			for (int j = 0; j < listOfAllBets.length; j++) {
 				if (listOfAllBets[j] <= accumulativeClassValue) {
-					frequencies.put(listOfAllBets[j], 1);
+					int tmp = frequencies.get(listOfAllBets[j]);
+					frequencies.put(listOfAllBets[j], tmp + 1);
 				}
 			}
 		}
