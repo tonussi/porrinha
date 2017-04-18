@@ -33,6 +33,16 @@ public class BetAdvisor {
 		return 0;
 	}
 
+	/**
+	 * This methods do the job of analyzing the frequencies of bets in the round history
+	 * once analyzed, this method will return the Chance Nodes of the Expectimax. The
+	 * Expectimax is a modification of the Minimax, which involves Chance Nodes between
+	 * MAX nodes and MIN nodes.
+	 * 
+	 * @param List<Round> roundHistory The History of Rounds.
+	 * @param int numberOfPlayers Number of Current Players.
+	 * @return List<Integer> Chance Nodes.
+	 */
 	private static Map<Integer, Integer> findMajorProbabilityRamifications(List<Round> roundHistory,
 			int numberOfPlayers) {
 
