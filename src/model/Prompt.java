@@ -60,6 +60,18 @@ public class Prompt {
 				String.format("\n@|%s,bold %s won the game!!!!|@\n",
 						gameWinner.getColor(), gameWinner.getId())));
 	}
+	
+	public void printWins(int p1, int p2, int p3, int p4) {
+		System.out.println(ansi().render(
+				String.format("\n@|white, "
+						+ "bold Player 1 %s!!!!|@\n", p1)));
+		System.out.println(ansi().render(
+				String.format("\n@|white, bold Player 2 %s!!!!|@\n", p2)));
+		System.out.println(ansi().render(
+				String.format("\n@|white, bold Player 3 %s!!!!|@\n", p3)));
+		System.out.println(ansi().render(
+				String.format("\n@|white, bold Player 4 %s!!!!|@\n", p4)));
+	}
 
 	public void printRoundWinner(Player roundWinner) {
 		String message = roundWinner != null ? String.format(

@@ -17,28 +17,46 @@ public class Game {
 		int numberOfPlayers = Integer.valueOf(((ListResult) prompt.results().get("numberOfPlayers")).getSelectedId());
 		prompt.printTheGameWillStart();
 
-		List<Player> players = createPlayers(numberOfPlayers);
-		int availableChopsticks = players.size() * 3;
-		Player gameWinner = null;
-		Player roundWinner = null;
-		List<Hold> playersHolds;
-		List<Bet> roundBets;
-		List<Round> roundHistory = new ArrayList<>();
-		do {
-			playersHolds = doHoldStep(players);
-			roundBets = doBetStep(players, availableChopsticks, roundHistory, numberOfPlayers);
-			prompt.printBets(roundBets);
-			roundWinner = findRoundWinner(playersHolds, roundBets);
-			prompt.printRoundWinner(roundWinner);
-			if (roundWinner != null) {
-				roundHistory.add(new Round(roundWinner, availableChopsticks, roundBets));
-				roundWinner.discardChopstick();
-				availableChopsticks -= 1;
-				roundWinner = null;
-				gameWinner = findGameWinner(players);
+		int player1 = 0, player2 = 0, player3 = 0, player4 = 0;
+		for (int i = 0; i < 10000; i++) {
+			List<Player> players = createPlayers(numberOfPlayers);
+			int availableChopsticks = players.size() * 3;
+			Player gameWinner = null;
+			Player roundWinner = null;
+			List<Hold> playersHolds;
+			List<Bet> roundBets;
+			List<Round> roundHistory = new ArrayList<>();
+			availableChopsticks = players.size() * 3;
+			do {
+				playersHolds = doHoldStep(players);
+				roundBets = doBetStep(players, availableChopsticks, roundHistory, numberOfPlayers);
+				prompt.printBets(roundBets);
+				roundWinner = findRoundWinner(playersHolds, roundBets);
+				prompt.printRoundWinner(roundWinner);
+				if (roundWinner != null) {
+					roundHistory.add(new Round(roundWinner, availableChopsticks, roundBets));
+					roundWinner.discardChopstick();
+					availableChopsticks -= 1;
+					roundWinner = null;
+					gameWinner = findGameWinner(players);
+				}
+			} while (gameWinner == null);
+			if (gameWinner.getId().equals("Player 1")) {
+				++player1;
 			}
-		} while (gameWinner == null);
-		prompt.printGameWinner(gameWinner);
+			if (gameWinner.getId().equals("Player 2")) {
+				++player2;
+			}
+			if (gameWinner.getId().equals("Player 3")) {
+				++player3;
+			}
+			if (gameWinner.getId().equals("Player 4")) {
+				++player4;
+			}
+			prompt.printGameWinner(gameWinner);
+		}
+
+		prompt.printWins(player1, player2, player3, player4);
 	}
 
 	private static List<Hold> doHoldStep(List<Player> players) {
@@ -53,7 +71,7 @@ public class Game {
 			int numberOfPlayers) {
 		List<Bet> playersBet = new ArrayList<Bet>();
 		for (Player player : players) {
-			playersBet.add(player.bet(playersBet, availableChopsticks, roundHistory, numberOfPlayers));
+			playersBet.add(player.bet(playersBet, availableChopsticks, players));
 		}
 		return playersBet;
 	}
