@@ -11,20 +11,36 @@ public class Player {
 	private final String color;
 	private List<Bet> betHistory;
 	private List<Hold> holdHistory;
+	private boolean human;
 
-	public Player(String id, String color) {
+	public Player(String id, String color, boolean human) {
 		super();
 		this.id = id;
 		this.color = color;
+		this.human = human;
 		this.chopsticks = 3;
 		this.betHistory = new ArrayList<Bet>();
 		this.holdHistory = new ArrayList<Hold>();
 	}
-
-	public Bet bet(List<Bet> unavailableBets, int sumOfAvailableChopsticks, List<Player> players) {
-		Bet bet = BetAdvisor.calculateBetterBet(this, unavailableBets, sumOfAvailableChopsticks, players);
+	
+	public Bet bet(int value, int availableChosticks) {
+		Bet bet = new Bet(this, value, availableChosticks);
 		betHistory.add(bet);
 		return bet;
+	}
+
+	public Bet bet(List<Bet> unavailableBets, int sumOfAvailableChopsticks,
+			List<Player> players) {
+		Bet bet = BetAdvisor.calculateBetterBet(this, unavailableBets,
+				sumOfAvailableChopsticks, players);
+		betHistory.add(bet);
+		return bet;
+	}
+	
+	public Hold hold(int value) {
+		Hold hold = new Hold(this, value);
+		holdHistory.add(hold);
+		return hold;
 	}
 
 	public Hold hold() {
@@ -49,15 +65,11 @@ public class Player {
 		return chopsticks;
 	}
 
-	public List<Bet> getBetHistory() {
-		return betHistory;
-	}
-
 	public List<Hold> getHoldHistory() {
 		return holdHistory;
 	}
 
-	public Bet getLastBet() {
-		return betHistory.get(betHistory.size() - 1);
+	public boolean isHuman() {
+		return human;
 	}
 }
